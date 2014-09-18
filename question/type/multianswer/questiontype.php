@@ -209,6 +209,12 @@ class qtype_multianswer extends question_type {
 
         foreach ($questiondata->options->questions as $key => $subqdata) {
             $subqdata->contextid = $questiondata->contextid;
+            if (!isset($questiondata->options->shuffleanswers) ||
+                    (isset($questiondata->options->shuffleanswers) && $questiondata->options->shuffleanswers == true)) {
+                $subqdata->options->shuffleanswers = true;
+            } else {
+                $subqdata->options->shuffleanswers = false;
+            }
             $question->subquestions[$key] = question_bank::make_question($subqdata);
             $question->subquestions[$key]->maxmark = $subqdata->defaultmark;
             if (isset($subqdata->options->layout)) {
